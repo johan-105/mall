@@ -7,13 +7,17 @@ spring:
     password: root
     url: jdbc:mysql://localhost:3307/gulimall_wms
     driver-class-name: com.mysql.cj.jdbc.Driver
-  #  cloud:
-  #    nacos:
-  #      discovery:
-  #        server-addr: 127.0.0.1:8848
-  application:
-    name: mall-ware
-
+#  application:
+#    name: mall-ware
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848
+  config:
+    import:
+      - nacos:ware-config.yaml
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:
