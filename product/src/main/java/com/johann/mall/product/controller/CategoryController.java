@@ -1,6 +1,7 @@
 package com.johann.mall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,16 @@ public class CategoryController {
         return R.ok().put("page", page);
     }
 
+    /**
+     * 查出所有分类以及其子分类
+     * @return
+     */
+    @GetMapping("/list/tree")
+    public R listTree(){
+        List<CategoryEntity> categoryEntities = categoryService.listWithTree();
+
+        return R.ok().put("categories", categoryEntities);
+    }
 
     /**
      * 信息
