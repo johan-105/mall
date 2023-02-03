@@ -1,9 +1,9 @@
 package com.johann.mall.oss.service;
 
-import java.io.InputStream;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface OssService {
-    String upload(InputStream inputStream, String originalFilename);
+    String upload(MultipartFile file);
 
 
     /**
