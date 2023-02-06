@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.johann.mall.common.validator.group.AddGroup;
 import com.johann.mall.common.validator.group.UpdateGroup;
+import com.johann.mall.common.validator.group.UpdateStatusGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -74,7 +75,13 @@ public class BrandController {
 
         return R.ok();
     }
+    @PutMapping("/update/status")
+    // @RequiresPermissions("product:brand:update")
+    public R updateStatus(@Validated(UpdateStatusGroup.class) @RequestBody BrandEntity brand){
+        brandService.updateById(brand);
 
+        return R.ok();
+    }
     /**
      * 删除
      */
