@@ -3,7 +3,10 @@ package com.johann.mall.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.johann.mall.common.validator.group.AddGroup;
+import com.johann.mall.common.validator.group.UpdateGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.johann.mall.product.entity.BrandEntity;
@@ -11,6 +14,7 @@ import com.johann.mall.product.service.BrandService;
 import com.johann.mall.common.utils.PageUtils;
 import com.johann.mall.common.utils.R;
 
+import javax.validation.Valid;
 
 
 /**
@@ -54,7 +58,7 @@ public class BrandController {
      */
     @PostMapping("/save")
     // @RequiresPermissions("product:brand:save")
-    public R save(@RequestBody BrandEntity brand){
+    public R save(@Validated({AddGroup.class}) @RequestBody BrandEntity brand){
 		brandService.save(brand);
 
         return R.ok();
@@ -65,7 +69,7 @@ public class BrandController {
      */
     @PutMapping("/update")
     // @RequiresPermissions("product:brand:update")
-    public R update(@RequestBody BrandEntity brand){
+    public R update(@Validated(UpdateGroup.class) @RequestBody BrandEntity brand){
 		brandService.updateById(brand);
 
         return R.ok();
