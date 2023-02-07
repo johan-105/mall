@@ -2,6 +2,7 @@ package com.johann.mall.product.service.impl;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,20 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
             this.findChildren(category);
         }
         return rootNodes;
+    }
+
+    @Override
+    public Long[] findCatelogPath(Long catelogId) {
+        List<Long> paths = new ArrayList<>();
+        findParentPath(catelogId, paths);
+        return paths.toArray(new Long[0]);
+    }
+    private void findParentPath(Long catelogId, List<Long> paths){
+        CategoryEntity byId = this.getById(catelogId);
+        if(byId.getParentCid()!=0){
+            findParentPath(byId.getParentCid(),paths);
+        }
+        paths.add(catelogId);
     }
     private void findChildren(CategoryEntity root) {
         Integer level = root.getCatLevel();
