@@ -13,6 +13,7 @@ import com.johann.mall.common.utils.Query;
 import com.johann.mall.product.dao.BrandDao;
 import com.johann.mall.product.entity.BrandEntity;
 import com.johann.mall.product.service.BrandService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 
@@ -37,6 +38,7 @@ public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> impleme
     }
 
     @Override
+    @Transactional
     public void updateDetail(BrandEntity brand) {
         //保证冗余字段的数据一致
         this.updateById(brand);
