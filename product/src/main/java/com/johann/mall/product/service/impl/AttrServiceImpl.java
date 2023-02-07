@@ -6,6 +6,7 @@ import com.johann.mall.product.dao.CategoryDao;
 import com.johann.mall.product.entity.AttrAttrgroupRelationEntity;
 import com.johann.mall.product.entity.AttrGroupEntity;
 import com.johann.mall.product.entity.CategoryEntity;
+import com.johann.mall.product.service.CategoryService;
 import com.johann.mall.product.vo.AttrRespVo;
 import com.johann.mall.product.vo.AttrVo;
 import org.springframework.beans.BeanUtils;
@@ -40,6 +41,10 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
     @Autowired
     CategoryDao categoryDao;
+
+    @Autowired
+    CategoryService categoryService;
+
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<AttrEntity> page = this.page(
@@ -95,6 +100,26 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         pageUtils.setList(respVos);
         return  pageUtils;
 
+    }
+
+    @Override
+    public AttrRespVo getAttrRespVo(Long attrId) {
+        AttrEntity attr = this.getById(attrId);
+        AttrRespVo attrRespVo = new AttrRespVo();
+        BeanUtils.copyProperties(attr, attrRespVo);
+
+        AttrAttrgroupRelationEntity relationEntity = relationDao.selectOne(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attrId));
+        if(relationEntity!=null){
+            attrRespVo.setAttrGroupId(relationEntity.getAttrGroupId());
+            AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(relationEntity.getAttrGroupId());
+            if(attrGroupEntity!=null){
+                attrRespVo.setGroupName(attrGroupEntity.getAttrGroupName());
+            }
+        }
+
+        Long catelogId = attr.getCatelogId();
+        attrRespVo.setCatelogPath(categoryService.findCatelogPath(catelogId));
+        return attrRespVo;
     }
 
 }

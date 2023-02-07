@@ -3,6 +3,7 @@ package com.johann.mall.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.johann.mall.common.utils.PageUtils;
 import com.johann.mall.product.entity.AttrEntity;
+import com.johann.mall.product.vo.AttrRespVo;
 import com.johann.mall.product.vo.AttrVo;
 
 import java.util.Map;
@@ -21,5 +22,7 @@ public interface AttrService extends IService<AttrEntity> {
     void saveAttrVo(AttrVo attrVo);
 
     PageUtils queryPage(Map<String, Object> params, Long catelogId);
+
+    AttrRespVo getAttrRespVo(Long attrId);
 }
 
