@@ -1,5 +1,6 @@
 package com.johann.mall.product.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.johann.mall.product.dao.AttrAttrgroupRelationDao;
 import com.johann.mall.product.dao.AttrGroupDao;
 import com.johann.mall.product.dao.CategoryDao;
@@ -120,6 +121,32 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         Long catelogId = attr.getCatelogId();
         attrRespVo.setCatelogPath(categoryService.findCatelogPath(catelogId));
         return attrRespVo;
+    }
+
+    @Transactional
+    @Override
+    public void updateAttr(AttrVo attr) {
+        AttrEntity attrEntity = new AttrEntity();
+        BeanUtils.copyProperties(attr,attrEntity);
+        this.updateById(attrEntity);
+
+
+        //1、修改分组关联
+        AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
+
+        relationEntity.setAttrGroupId(attr.getAttrGroupId());
+        relationEntity.setAttrId(attr.getAttrId());
+
+        Long count = relationDao.selectCount(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attr.getAttrId()));
+        if(count>0){
+
+            relationDao.update(relationEntity,new UpdateWrapper<AttrAttrgroupRelationEntity>().eq("attr_id",attr.getAttrId()));
+
+        }else{
+            relationDao.insert(relationEntity);
+        }
+
+
     }
 
 }
