@@ -38,7 +38,13 @@ public class AttrController {
         return R.ok().put("page", page);
     }
 
+    @GetMapping("/base/list/{catelogId}")
+    // @RequiresPermissions("product:attr:list")
+    public R list(@RequestParam Map<String, Object> params, @PathVariable Long catelogId){
+        PageUtils page = attrService.queryPage(params, catelogId);
 
+        return R.ok().put("page", page);
+    }
     /**
      * 信息
      */
