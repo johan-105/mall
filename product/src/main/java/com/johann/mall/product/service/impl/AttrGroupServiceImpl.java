@@ -38,7 +38,9 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
             });
         }
         if (catelogId == 0) {
-            return this.queryPage(params);
+            IPage<AttrGroupEntity> page = this.page(new Query<AttrGroupEntity>().getPage(params),
+                    wrapper);
+            return new PageUtils(page);
         } else {
             wrapper.eq("catelog_id",catelogId);
             IPage<AttrGroupEntity> page = this.page(new Query<AttrGroupEntity>().getPage(params),
