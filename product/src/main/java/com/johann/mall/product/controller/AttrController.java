@@ -3,6 +3,7 @@ package com.johann.mall.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.johann.mall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,8 +55,8 @@ public class AttrController {
      */
     @PostMapping("/save")
     // @RequiresPermissions("product:attr:save")
-    public R save(@RequestBody AttrEntity attr){
-		attrService.save(attr);
+    public R save(@RequestBody AttrVo attr){
+		attrService.saveAttrVo(attr);
 
         return R.ok();
     }
